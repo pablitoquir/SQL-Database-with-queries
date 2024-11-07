@@ -1,0 +1,53 @@
+Create database Usuarios;
+create table user (
+id int not null auto_increment,
+name varchar (50) not null,
+edad int not null,
+email varchar (100) not null,
+primary key (id) ) ;
+insert into user (name, edad, email) values ("Oscar", 25, "oscar@gmail.com");
+insert into user (name, edad, email) values ("Layla", 25, "layla@gmail.com");
+insert into user (name, edad, email) values ("Nicolas", 25, "nico@gmail.com");
+insert into user (name, edad, email) values ("Chanchito", 25, "chanchito@gmail.com");
+
+select * from user;
+select * from user limit 1;
+update user  set edad = 20 where name ="Chanchito" ;
+update user  set edad = 18 where name ="Layla" ;
+select * from user where edad >= 18;
+select * from user where edad >= 25 and email = "nico@gmail.com";
+select * from user where edad > 18 or email ="layla@gmail.com";
+select * from user where email !="nico@gmail.com";
+select * from user where edad between 18 and 20;
+select * from user where email like "%gmail%";
+select * from user where email like "layla%";
+select * from user order by edad asc;
+
+select max(edad) as Mayor_Edad from user;
+select min(edad) as Mayor_Edad from user;
+select edad, name from user;
+select id, name as Nombre from user;
+
+create table producto (
+id int not null auto_increment,
+name varchar(50) not null,
+buy_by int not null,
+marca varchar (50) not null,
+primary key (id),
+foreign key (buy_by) references user (id) );
+rename table producto to productos;
+insert into productos (name, buy_by, marca) 
+values
+("ipad", 1, "apple"),
+("iphone", 1, "apple"),
+("watch", 2, "apple"),
+("macbook", 1, "apple"),
+("imac", 3, "apple"),
+("ipad mini", 2, "apple");
+select * from productos;
+select u.id, u.email, p.name from user u  left join productos p on u.id = p.buy_by;
+select u.id, u.email, p.name from user u  right join productos p on u.id = p.buy_by;
+
+select count(id), marca from productos group by marca;
+
+select count(p.id), u.name from productos p left join user u on u.id= p.buy_by group by p.buy_by having count(p.id) >=2;
